@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#FF787878</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="color_bg">#FFFFFFFF</color>
+    <color name="color_txt_n">#FF000000</color>
+    <color name="color_app_theme">#FF787878</color>
+    <color name="color_float_n">#dcdcdc</color>
+
+    //Line
+    <color name="color_line_1">#FF005DA9</color>
+    <color name="color_line_2">#FF00A34A</color>
+    <color name="color_line_3">#FFF37D30</color>
+    <color name="color_line_4">#FF00A8DB</color>
+    <color name="color_line_5">#FF926FB0</color>
+    <color name="color_line_6">#FFC67539</color>
+    <color name="color_line_7">#FF677718</color>
+    <color name="color_line_8">#FFE9545D</color>
+    <color name="color_line_9">#FFC5B081</color>
+    <color name="color_line_10">#FF3680B6</color>
+    <color name="color_line_11">#FF6F9FCD</color>
+    <color name="color_line_12">#FFEC7f01</color>
+    <color name="color_line_13">#FF76C3A2</color>
+    <color name="color_line_14">#FF178B72</color>
+    <color name="color_line_15">#FFF89C1C</color>
+    <color name="color_line_16">#FFF89C1C</color>
+    <color name="color_line_17">#FFD21145</color>
+    <color name="color_line_18">#FF0054A5</color>
+    <color name="color_line_19">#FF8EC21E</color>
+    <color name="color_line_20">#FFFBA501</color>
+    <color name="color_line_21">#FF4EA246</color>
+    <color name="color_line_22">#FFAFCD18</color>
+    <color name="color_line_23">#FFFDCC12</color>
+</resources>
