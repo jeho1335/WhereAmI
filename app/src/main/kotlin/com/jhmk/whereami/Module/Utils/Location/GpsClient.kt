@@ -9,7 +9,7 @@ import android.util.Log
 import com.jhmk.whereami.Model.ConstVariables
 import com.jhmk.whereami.Model.RxEvent
 import com.jhmk.whereami.Model.RxEventObject
-import com.jhmk.whereami.Model.Utils.Permission.PermissionCheck
+import com.jhmk.whereami.Module.Utils.Permission.PermissionCheck
 import com.jhmk.whereami.Utils.Location.GeoPoint
 import com.jhmk.whereami.Utils.Location.GeoTrans
 

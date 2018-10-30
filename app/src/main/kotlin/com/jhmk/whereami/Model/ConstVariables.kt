@@ -7,5 +7,8 @@ object ConstVariables {
     // RxJava
     const val RX_RESPONSE_CURRENT_LOCATION = 1
     const val RX_RESPONSE_NEARBY_STATIONS = 2
+    const val RX_RESPONSE_PREVNEXT_STATIONS = 3
+
+    const val LINE_UNKNOWN = "UNKNOWN_LINE"
 
 }

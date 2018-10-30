@@ -5,7 +5,10 @@
     <string name="string_request_gps_location_denied">위치 정보를 알기 위해서는 GPS 사용 권한이 필요합니다.</string>
     <string name="string_request_gps_progress_title">위치 정보 갱신중…</string>
     <string name="string_request_gps_success">위치 정보 갱신 완료</string>
-    <string name="string_request_gps_failed">위치 정보 갱신 실패</string>
+    <string name="string_request_gps_failed">위치 정보 갱신에 실패했어요.</string>
+    <string name="string_request_network_failed">네트워크 상태가 원활하지 않아요.</string>
+
+    <string name="string_current_nearby_station">이 역과 가장 가까워요</string>
 
     <string name="line_1">1호선</string>
     <string name="line_2">2호선</string>
@@ -30,5 +33,6 @@
     <string name="line_21">용인경전철</string>
     <string name="line_22">우이신설선</string>
     <string name="line_23">인천공항\n자기부상철도</string>
+    <string name="line_unknown">나도 잘 몰라</string>
 
 </resources>

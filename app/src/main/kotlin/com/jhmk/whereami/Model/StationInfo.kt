@@ -3,7 +3,7 @@ package com.jhmk.whereami.Model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Stations {
+class StationInfo {
 
     @SerializedName("beginRow")
     @Expose

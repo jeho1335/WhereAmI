@@ -5,6 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="color_bg">#FFFFFFFF</color>
+    <color name="color_black">#FF000000</color>
+    <color name="color_gray">#FF313131</color>
     <color name="color_txt_n">#FF000000</color>
     <color name="color_app_theme">#FF787878</color>
     <color name="color_float_n">#dcdcdc</color>
@@ -33,4 +35,5 @@
     <color name="color_line_21">#FF4EA246</color>
     <color name="color_line_22">#FFAFCD18</color>
     <color name="color_line_23">#FFFDCC12</color>
+    <color name="color_line_unknown">#FFAEAEAE</color>
 </resources>

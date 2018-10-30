@@ -1,9 +1,8 @@
-package com.jhmk.whereami.Model.Utils.Permission
+package com.jhmk.whereami.Module.Utils.Permission
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import com.jhmk.whereami.R
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 
 
@@ -16,8 +15,6 @@ class PermissionCheck {
     fun checkPermission(context : Context, permission : String, listener : onCheckedListener){
         Log.d(TAG, "##### checkPermission #####")
         TedRx2Permission.with(context)
-//                .setRationaleTitle(context.resources.getString(R.string.string_request_gps_location_title))
-//                .setRationaleMessage(context.resources.getString(R.string.string_request_gps_location_denied))
                 .setPermissions(permission)
                 .request()
                 .subscribe({ tedPermissionResult ->

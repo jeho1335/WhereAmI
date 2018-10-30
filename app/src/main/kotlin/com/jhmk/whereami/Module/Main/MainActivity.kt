@@ -36,14 +36,16 @@ class MainActivity : AppCompatActivity() {
         handleFragment(ConstVariables.FRAGMENT_STATE_HOME)
     }
 
-    private fun handleOnClick(v: View) {
-        when (v) {
-        }
+    fun String.appendWorld() : String{
+        return this + "World!"
     }
+
 
     @SuppressLint("CommitTransaction")
     private fun handleFragment(state: Int) {
         Log.d(TAG, "##### handleFragment #####")
+        var a = "Hello"
+        a.appendWorld()
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
         var fr = Fragment()

@@ -3,11 +3,11 @@ package com.jhmk.whereami.Model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class UserStations {
+class StationList {
 
     @SerializedName("stationList")
     @Expose
-    var stationList: List<Stations>? = null
+    var stationList: List<StationInfo>? = null
 
     /*@SerializedName("errorMessage")
     @Expose
