@@ -1,6 +1,7 @@
 package com.jhmk.whereami.Module.Home
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import com.example.iriver.constraintsample.Model.Utils.Location.GpsClient
@@ -25,7 +26,7 @@ class HomePresenter(view: Home.view) : Home.presenter {
                         val curInfo = StationFilter().filterStationByLine(it.value, mCurrentLine)
                         mView.onResultNearbyStation(true, curInfo?.statnNm, curInfo?.subwayNm)
                         ApiClient().getPrevNextStations(curInfo?.statnNm)
-                    }else{
+                    } else {
                         mView.onResultNearbyStation(false, null, null)
                     }
                 }
@@ -33,7 +34,7 @@ class HomePresenter(view: Home.view) : Home.presenter {
                     if (it.value is StationList) {
                         val curInfo = StationFilter().filterStationByLine(it.value, mCurrentLine)
                         mView.onResultPrevNextStation(true, curInfo?.statnTnm as String, curInfo.statnFnm as String)
-                    }else{
+                    } else {
                         mView.onResultPrevNextStation(false, null, null)
                     }
                 }
