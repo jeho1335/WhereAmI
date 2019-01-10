@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.fragment.app.Fragment
+import com.jhmk.whereami.Module.Base.BaseFragment
 import com.jhmk.whereami.Module.Custom.Dialog.SelectLineDialog.SelectLineDialog
 import com.jhmk.whereami.Module.Custom.ProgressDialog
 import com.jhmk.whereami.R
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.layout_home_fragment.*
 import org.jetbrains.anko.toast
 
 
-class HomeFragment : Fragment(), Home.view {
+class HomeFragment : BaseFragment(), Home.view {
     private val TAG = this.javaClass.simpleName
     private val mProgress = ProgressDialog()
     private lateinit var mPresenter: HomePresenter
@@ -48,11 +48,6 @@ class HomeFragment : Fragment(), Home.view {
         fb_select_line.isClickable = false
     }
 
-    private fun bmListener(pos: Int) {
-        Log.d(TAG, "##### bmListener ##### pos : $pos")
-
-    }
-
     private fun handleOnClick(v: View) {
         Log.d(TAG, "##### handleOnClick #####")
         when (v) {
@@ -82,7 +77,6 @@ class HomeFragment : Fragment(), Home.view {
     override fun onResultNearbyStation(isSuccess: Boolean, stName: String?, stLine: String?) {
         Log.d(TAG, "##### onResultNearbyStation $isSuccess $stName $stLine#####")
         val openAnim = AnimationUtils.loadAnimation(activity, R.anim.txt_open)
-        mProgress.dismissAllowingStateLoss()
         when (isSuccess) {
             true -> {
                 txt_current_line.text = stLine
@@ -99,6 +93,7 @@ class HomeFragment : Fragment(), Home.view {
     override fun onResultPrevNextStation(isSuccess: Boolean, prevName: String?, nextName: String?) {
         Log.d(TAG, "##### onResultPrevNextStation $isSuccess $prevName $nextName#####")
         val openAnim = AnimationUtils.loadAnimation(activity, R.anim.txt_open)
+        mProgress.dismissAllowingStateLoss()
         txt_prestation.text = prevName
         txt_nextstation.text = nextName
         txt_prestation.startAnimation(openAnim)

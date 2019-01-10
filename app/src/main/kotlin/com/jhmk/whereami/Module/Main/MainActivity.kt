@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         Log.d(TAG, "##### onDestroy #####")
         super.onDestroy()
-        mPresenter.onDestroy()
     }
 
     private fun initializeUi() {
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         handleFragment(ConstVariables.FRAGMENT_STATE_HOME)
     }
 
-    fun String.appendWorld(): String {
+    fun String.appendWorld() : String{
         return this + "World!"
     }
 
