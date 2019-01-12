@@ -4,15 +4,15 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.jhmk.whereami.Model.ConstVariables
+import com.jhmk.whereami.Module.Base.BaseActivity
 import com.jhmk.whereami.Module.Home.HomeFragment
 import com.jhmk.whereami.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity(), Main.view {
     val TAG = this.javaClass.simpleName
     private lateinit var mPresenter: MainPresenter
     private lateinit var mContetView: View
@@ -29,23 +29,32 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    override fun onResultRequestCheckPermission(msg: String) {
+        Log.d(TAG, "##### onResultRequestCheckPermission #####")
+    }
+
     private fun initializeUi() {
         Log.d(TAG, "##### initializeUi #####")
-        mPresenter = MainPresenter()
+        mPresenter = MainPresenter(this)
         mContetView = view_content_main as View
         handleFragment(ConstVariables.FRAGMENT_STATE_HOME)
+        setNetworkThreadPolicy()
+        setRuntimePermission()
     }
 
-    fun String.appendWorld() : String{
-        return this + "World!"
+    private fun setNetworkThreadPolicy(){
+        Log.d(TAG, "##### setNetworkThreadPolicy #####")
+        mPresenter.checkNetworkThreadPolicy()
     }
 
+    private fun setRuntimePermission(){
+        Log.d(TAG, "##### setRuntimePermission ####")
+        mPresenter.requestCheckPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+    }
 
     @SuppressLint("CommitTransaction")
     private fun handleFragment(state: Int) {
         Log.d(TAG, "##### handleFragment #####")
-        var a = "Hello"
-        a.appendWorld()
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
         var fr = Fragment()

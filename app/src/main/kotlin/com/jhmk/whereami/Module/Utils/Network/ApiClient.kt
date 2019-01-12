@@ -10,8 +10,7 @@ import retrofit2.http.Path
 
 
 class ApiClient {
-    private val TAG = this.javaClass.simpleName
-    private var mRetrofit: Retrofit = Retrofit
+    private val retrofitClient: Retrofit = Retrofit
         .Builder()
         .baseUrl("http://swopenAPI.seoul.go.kr/api/subway/")
         .addConverterFactory(GsonConverterFactory.create())
@@ -26,5 +25,5 @@ class ApiClient {
         fun getPrevNextStations(@Path("stName") stName: String): Flowable<StationList>
     }
 
-    fun getRetrofitClient() = mRetrofit
+    fun getRetrofitClient() = retrofitClient
 }

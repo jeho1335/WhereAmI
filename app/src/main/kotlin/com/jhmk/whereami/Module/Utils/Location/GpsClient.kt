@@ -13,7 +13,7 @@ class GpsClient {
     private val TAG = this.javaClass.simpleName
     private lateinit var mLocationManager: LocationManager
 
-    fun getCurrentLocation(context : Context?, currentLocation : (GeoPoint) -> Unit) {
+    fun getCurrentLocation(context : Context?, currentLocation : (GeoPoint) -> Unit, isSuccess : (Boolean) -> Unit) {
         Log.d(TAG, "##### getCurrentLocation #####")
         if(context == null){
             return
@@ -40,6 +40,7 @@ class GpsClient {
                 }
             })
         } catch (e: SecurityException) {
+            isSuccess(false)
             e.printStackTrace()
         }
     }

@@ -10,7 +10,9 @@ import com.jhmk.whereami.Model.RxEvent
 import com.jhmk.whereami.Module.Utils.Network.ApiClient
 import com.jhmk.whereami.Module.Utils.Permission.PermissionCheck
 import com.jhmk.whereami.Module.Utils.StationFilter
+import com.jhmk.whereami.R
 import com.jhmk.whereami.Utils.Location.GeoPoint
+import com.tedpark.tedpermission.rx2.TedRx2Permission
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -25,44 +27,52 @@ class HomePresenter(val view: HomeFragment) : Home.presenter {
         RxEvent.getObservable().subscribe().dispose()
     }
 
-    override fun requestNearbyStation(context: Context, line: String?) {
-        Log.d(TAG, "##### requestNearbyStation #####")
+    override fun requestCurrentLocation(context: Context, stLine: String) {
+        Log.d(TAG, "##### requestCurrentLocation #####")
+        TedRx2Permission
+            .with(context)
+            .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
+            .request()
+            .subscribe({ permissionResult ->
+                if (permissionResult.isGranted) {
+                    getCurrentLocation(context, stLine)
+                } else {
+                    mView.onResultMessage(view.getString(R.string.string_request_gps_location_denied))
+                }
+            }, { throwable ->
+                throwable.printStackTrace()
+                mView.onResultMessage(view.getString(R.string.string_unknown_error))
+            }).apply {
+                view.disposables.add(this)
+            }
+    }
 
+    override fun requestNearbyStation(context: Context, line: String?, geoPoint: GeoPoint) {
+        Log.d(TAG, "##### requestNearbyStation #####")
         val lineList = CurrentLineManager(context).lineInfoList
-        for ((anything, isokay) in lineList.withIndex()) {
-            if (isokay.name == line) {
-                mCurrentLine = lineList[anything].name
+        for ((index, value) in lineList.withIndex()) {
+            if (value.name == line) {
+                mCurrentLine = lineList[index].name
                 break
             }
         }
-
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-            StrictMode.setThreadPolicy(policy)
-        }
-        PermissionCheck().checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION, object : PermissionCheck.onCheckedListener {
-                override fun onChecked(permissionCheckResult: Boolean) {
-                    when (permissionCheckResult) {
-                        true -> {
-                            getCurrentLocation()
-                        }
-                        false -> {
-                            //권한 요청
-                        }
-                    }
-                }
-            })
+        getNearByStation(geoPoint)
     }
 
-    private fun getCurrentLocation() {
-        Log.d(TAG, "##### getCurrentLcoation #####")
-        GpsClient().getCurrentLocation(view.context) { currentLocation ->
-            getNearByStation(currentLocation)
+    private fun getCurrentLocation(context: Context, stLine: String) {
+        Log.d(TAG, "##### getCurrentLocation #####")
+        GpsClient().getCurrentLocation(context, { currentLocation ->
+            view.onResultCurrentLocation(currentLocation, stLine)
+        }) { isSuccess ->
+            if (!isSuccess) {
+                mView.onResultMessage(view.getString(R.string.string_request_gps_failed))
+            }
         }
     }
 
     private fun getNearByStation(currentLocation: GeoPoint) {
         Log.d(TAG, "##### getNearByStation #####")
+        mView.onResultChangeProgressMessage(view.getString(R.string.string_request_nearby_station_progress_title))
         ApiClient().getRetrofitClient().create(ApiClient.ApiService::class.java).run {
             this.getNearbyStations(currentLocation.x.toString(), currentLocation.y.toString())
                 .subscribeOn(Schedulers.io())
@@ -72,8 +82,9 @@ class HomePresenter(val view: HomeFragment) : Home.presenter {
                 }
                 .filter { stationName ->
                     (stationName != "").also {
-                        if(it){
+                        if (it) {
                             mView.onResultNearbyStation(true, stationName, "")
+                            mView.onResultChangeProgressMessage(view.getString(R.string.string_request_nearby_station_prev_next_progress_title))
                         }
                     }
                 }
@@ -90,12 +101,14 @@ class HomePresenter(val view: HomeFragment) : Home.presenter {
                 }
                 .subscribe({ stationInfo ->
                     Log.d(TAG, "##### onNext #####")
-                        mView.onResultPrevNextStation(true, stationInfo?.statnTnm as String, stationInfo.statnFnm as String)
+                    mView.onResultPrevNextStation(true, stationInfo?.statnTnm as String, stationInfo.statnFnm as String)
+                    mView.onResultMessage(view.getString(R.string.string_request_gps_success))
                 }, { throwable ->
                     Log.d(TAG, "##### onError #####")
                     for ((index, value) in throwable.stackTrace.withIndex()) {
                         Log.d(TAG, "$value")
                     }
+                    mView.onResultMessage(view.getString(R.string.string_unknown_error))
                 }, {
                     Log.d(TAG, "##### onComplete #####")
                 }).apply {

@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.Fragment
 import com.jhmk.whereami.Module.Base.BaseFragment
 import com.jhmk.whereami.Module.Custom.Dialog.SelectLineDialog.SelectLineDialog
 import com.jhmk.whereami.Module.Custom.ProgressDialog
 import com.jhmk.whereami.R
+import com.jhmk.whereami.Utils.Location.GeoPoint
 import kotlinx.android.synthetic.main.layout_home_fragment.*
 import org.jetbrains.anko.toast
 
@@ -48,6 +50,10 @@ class HomeFragment : BaseFragment(), Home.view {
         fb_select_line.isClickable = false
     }
 
+    private fun requestLocation(stLine : String){
+        mPresenter.requestCurrentLocation(activity as Context, stLine)
+    }
+
     private fun handleOnClick(v: View) {
         Log.d(TAG, "##### handleOnClick #####")
         when (v) {
@@ -67,11 +73,20 @@ class HomeFragment : BaseFragment(), Home.view {
         }
     }
 
-    override fun onResultCurrentLocation(isSuccess: Boolean) {
-        Log.d(TAG, "##### handleOnClick ##### isSuccess : $isSuccess")
-        if(!isSuccess){
-            activity?.toast(resources.getString(R.string.string_request_gps_failed))
-        }
+    override fun onResultMessage(msg: String) {
+        Log.d(TAG, "##### onResultMessage #####")
+        mProgress.dismissAllowingStateLoss()
+        activity?.toast(msg)
+    }
+
+    override fun onResultChangeProgressMessage(msg: String) {
+        Log.d(TAG, "##### onResultChangeProgressMessage #####")
+        mProgress.setTitle(msg)
+    }
+
+    override fun onResultCurrentLocation(geoPoint: GeoPoint, stLine : String) {
+        Log.d(TAG, "##### onResultCurrentLocation #####")
+        mPresenter.requestNearbyStation(activity as Context, stLine, geoPoint)
     }
 
     override fun onResultNearbyStation(isSuccess: Boolean, stName: String?, stLine: String?) {
@@ -93,7 +108,6 @@ class HomeFragment : BaseFragment(), Home.view {
     override fun onResultPrevNextStation(isSuccess: Boolean, prevName: String?, nextName: String?) {
         Log.d(TAG, "##### onResultPrevNextStation $isSuccess $prevName $nextName#####")
         val openAnim = AnimationUtils.loadAnimation(activity, R.anim.txt_open)
-        mProgress.dismissAllowingStateLoss()
         txt_prestation.text = prevName
         txt_nextstation.text = nextName
         txt_prestation.startAnimation(openAnim)
@@ -116,7 +130,7 @@ class HomeFragment : BaseFragment(), Home.view {
 
     private fun showNearByStation(stLine: String) {
         val closeAnim = AnimationUtils.loadAnimation(activity, R.anim.fab_close)
-        mPresenter.requestNearbyStation(activity as Context, stLine)
+        requestLocation(stLine)
         txt_nearby_station.startAnimation(closeAnim)
         txt_prestation.startAnimation(closeAnim)
         txt_nextstation.startAnimation(closeAnim)
@@ -140,7 +154,5 @@ class HomeFragment : BaseFragment(), Home.view {
             fb_nearme.isClickable = true
             fb_select_line.isClickable = true
         }
-
     }
-
 }
