@@ -2,13 +2,11 @@ package com.jhmk.whereami.Module.Home
 
 import android.Manifest
 import android.content.Context
-import android.os.StrictMode
 import android.util.Log
 import com.example.iriver.constraintsample.Model.Utils.Location.GpsClient
 import com.jhmk.whereami.Model.CurrentLineManager
 import com.jhmk.whereami.Model.RxEvent
 import com.jhmk.whereami.Module.Utils.Network.ApiClient
-import com.jhmk.whereami.Module.Utils.Permission.PermissionCheck
 import com.jhmk.whereami.Module.Utils.StationFilter
 import com.jhmk.whereami.R
 import com.jhmk.whereami.Utils.Location.GeoPoint
